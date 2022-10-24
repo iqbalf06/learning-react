@@ -1,9 +1,17 @@
 const root = document.querySelector('#root');
-function tick() {
-  const element = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Time now"), new Date().toLocaleTimeString());
-  ReactDOM.render(element, root);
+function App() {
+  const [login, setLogin] = React.useState(false);
+  if (login) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Udah Login, Bang"), /*#__PURE__*/React.createElement("button", {
+      onClick: function () {
+        setLogin(false);
+      }
+    }, "Logout"));
+  }
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Login Dulu, Bang"), /*#__PURE__*/React.createElement("button", {
+    onClick: function () {
+      setLogin(true);
+    }
+  }, "Login"));
 }
-tick();
-setInterval(function () {
-  tick();
-}, 1000);
+ReactDOM.render( /*#__PURE__*/React.createElement(App, null), root);

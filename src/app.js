@@ -1,17 +1,33 @@
 const root = document.querySelector('#root')
-        
-function tick() {
-    const element = (
-        <div>
-            <h1>Time now</h1>
-            {new Date().toLocaleTimeString()}
-        </div>
-    )
 
-ReactDOM.render(element, root);
+function App() {
+    const [login, setLogin] = React.useState(false);
+
+    if (login) {
+        return (
+            <>
+                <h1>Udah Login, Bang</h1>
+                <button
+                    onClick={function () {
+                        setLogin(false);
+                    }}>
+                    Logout
+                </button>
+            </>
+        );
+    }
+
+    return (
+        <>
+            <h1>Login Dulu, Bang</h1>
+            <button
+                onClick={function () {
+                    setLogin(true);
+                }}>
+                Login
+            </button>
+        </>
+    );
 }
 
-tick();
-setInterval(function () {
-    tick();
-}, 1000);
+ReactDOM.render(<App />, root);
