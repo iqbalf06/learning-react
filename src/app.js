@@ -1,33 +1,56 @@
 const root = document.querySelector('#root')
 
 function App() {
-    const [news, setNews] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
+    const [activity, setActivity] = React.useState('');
+    const [todos, setTodos] = React.useState([])
 
-    React.useEffect(function () {
-        async function getData() {
-            const request = await fetch(
-                'https://api.spaceflightnewsapi.net/v3/blogs'
-            );
-            const response = await request.json();
+    function generateId() {
+        return Date.now();
+    }
+     
+    function addTodoHandler(event) {
+        event.preventDefault();
 
-            setNews(response);
-            setLoading(false);
-        }
-        getData();
-    }, []);
+        setTodos([
+            ...todos, 
+            {
+                id: generateId(),
+                activity: activity,
+            },
+        ]);
+        setActivity('');    
+    }
+
+    function removeTodoHandler(todoId) {
+        const filteredTodos = todos.filter(function (todo) {
+            return todo.id !== todoId
+        });
+
+        setTodos(filteredTodos)
+    }
 
     return (
         <>
-         <h1>Data Fetch</h1>
-         {loading ? (<i>Loading data ...</i>) : (
-         
-         <ul>
-            {news.map(function (item) {
-                return <li key={item.id}>{item.title}</li>;
+        <h1>Simple To do List</h1>
+        <form onSubmit={addTodoHandler}>
+            <input type="text" 
+            placeholder="Nama aktivitas" 
+            value={activity}
+            onChange={function (event) {
+                setActivity(event.target.value);
+            }}>
+            </input>
+            <button type="submit">Tambah</button>
+        </form>
+        <ul>
+            {todos.map(function (todo) {
+                return (
+                <li key={todo.id}>{todo.activity}
+                <button onClick={removeTodoHandler.bind(this, todo.id)}>Hapus</button>
+                </li>
+                );
             })}
-         </ul>
-         )}
+        </ul>
         </>
     )
 }
